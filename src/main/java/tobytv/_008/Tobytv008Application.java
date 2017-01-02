@@ -1,4 +1,4 @@
-package tobytv;
+package tobytv._008;
 
 import java.util.Queue;
 import java.util.concurrent.Callable;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @Slf4j
 @EnableAsync
-public class Tobytv8Application {
+public class Tobytv008Application {
 	/*@Component
 	public static class MyService	{
 		@Async
@@ -131,6 +131,6 @@ public class Tobytv8Application {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Tobytv8Application.class, args);
+		SpringApplication.run(Tobytv008Application.class, args);
 	}
 }
