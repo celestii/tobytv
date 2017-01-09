@@ -1,4 +1,4 @@
-package tobytv._009;
+package tobytv._010;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LoadTest009 {
+public class LoadTest {
 	static AtomicInteger counter = new AtomicInteger(0);
 	
 	public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
