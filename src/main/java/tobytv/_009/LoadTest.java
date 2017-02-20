@@ -19,6 +19,9 @@ public class LoadTest {
 	public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
 		ExecutorService es = Executors.newFixedThreadPool(100);
 		
+		StopWatch main = new StopWatch();
+		main.start();
+		
 		RestTemplate rt = new RestTemplate();
 		String url = "http://localhost:9090/rest?idx={idx}";
 		
@@ -45,10 +48,11 @@ public class LoadTest {
 		}
 		
 		barrier.await();
-		StopWatch main = new StopWatch();
-		main.start();
 		
 		es.shutdown();
 		es.awaitTermination(100, TimeUnit.SECONDS);
+		
+		main.stop();
+		log.info("Total : {}", main.getTotalTimeSeconds());
 	}
 }

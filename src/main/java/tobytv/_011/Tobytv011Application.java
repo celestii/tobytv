@@ -1,13 +1,12 @@
-package tobytv._010;
+package tobytv._011;
+
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.Netty4ClientHttpRequestFactory;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -19,15 +18,13 @@ import org.springframework.web.context.request.async.DeferredResult;
 import io.netty.channel.nio.NioEventLoopGroup;
 
 /**
- * 토비의 봄 TV 10화
+ * 토비의 봄 TV 11화 - CompletableFuture
  *
  */
 @SpringBootApplication
-@EnableAsync
-public class Tobytv010Application {
+public class Tobytv011Application {
 	@RestController	
 	public static class MyController	{
-		//AsyncRestTemplate rt = new AsyncRestTemplate();
 		AsyncRestTemplate rt = new AsyncRestTemplate(new Netty4ClientHttpRequestFactory(new NioEventLoopGroup(1)));
 			
 		@Autowired MyService myService;
@@ -39,22 +36,26 @@ public class Tobytv010Application {
 		public DeferredResult<String> rest(String idx)	{
 			DeferredResult<String> dr = new DeferredResult<>();
 			
-			Completion
-				.from(rt.getForEntity(URL1, String.class, "hello" + idx))
-				.andApply(s -> rt.getForEntity(URL2, String.class, s.getBody()))
-				.andApply(s -> myService.work(s.getBody()))
-				.andError(e -> dr.setErrorResult(e.toString()))
-				.andAccept(s -> dr.setResult(s));
+			toCF(rt.getForEntity(URL1, String.class, "hello" + idx))
+				.thenCompose(s -> toCF(rt.getForEntity(URL2, String.class, s.getBody())))
+				.thenApplyAsync(s2 -> myService.work(s2.getBody()))
+				.thenAccept(s3 -> dr.setResult(s3))
+				.exceptionally(e -> {dr.setErrorResult(e.getMessage()); return null;});
 			
 			return dr;
+		}
+		
+		<T> CompletableFuture<T> toCF(ListenableFuture<T> lf)	{
+			CompletableFuture<T> cf = new CompletableFuture<>();
+			lf.addCallback(s -> cf.complete(s), e -> cf.completeExceptionally(e));
+			return cf;
 		}
 	}
 	
 	@Service
 	public static class MyService	{
-		@Async
-		public ListenableFuture<String> work(String req)	{
-			return new AsyncResult<>(req + "/asynwork");
+		public String work(String req)	{
+			return req + "/asynwork";
 		}
 	}
 	
@@ -69,6 +70,6 @@ public class Tobytv010Application {
 	
 	public static void main(String[] args) {
 		System.setProperty("SERVER_PORT", "9090");
-		SpringApplication.run(Tobytv010Application.class, args);
+		SpringApplication.run(Tobytv011Application.class, args);
 	}
 }
