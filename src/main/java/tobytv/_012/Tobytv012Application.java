@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+
 /**
  * 토비의 봄 TV 12화 - Reactive Programming - WebFlux - SpringBoot 2.0 M1, SpringFramework 5.0 RC1
  *
@@ -50,7 +51,7 @@ public class Tobytv012Application {
 	
 	public static void main(String[] args) {
 		System.setProperty("server.port", "9090");
-		System.setProperty("reactor.ipc.netty.workerCount", "1");
+		System.setProperty("reactor.ipc.netty.workerCount", "2");
 		System.setProperty("reactor.ipc.pool.maxConnections", "2000");
 		SpringApplication.run(Tobytv012Application.class, args);
 	}

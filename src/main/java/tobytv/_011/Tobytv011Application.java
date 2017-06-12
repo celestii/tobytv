@@ -55,7 +55,7 @@ public class Tobytv011Application {
 	@Service
 	public static class MyService	{
 		public String work(String req)	{
-			return req + "/asynwork";
+			return req + "/asyncwork";
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class Tobytv011Application {
 	}
 	
 	public static void main(String[] args) {
-		System.setProperty("SERVER_PORT", "9090");
+		System.setProperty("server.port", "9090");
 		SpringApplication.run(Tobytv011Application.class, args);
 	}
 }

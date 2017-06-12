@@ -3,24 +3,13 @@ package tobytv._008;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,6 +98,7 @@ public class Tobytv008Application {
 			return "OK";
 		}
 		
+		/* 12화 진행 시 library 변경으로 오류 발생하여 주석처리
 		@GetMapping("/emitter")
 		public ResponseBodyEmitter emitter()	{
 			log.info("emitter");
@@ -127,7 +117,7 @@ public class Tobytv008Application {
 			});
 						
 			return emitter;
-		}
+		}*/
 	}
 	
 	public static void main(String[] args) {
